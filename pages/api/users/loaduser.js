@@ -1,4 +1,5 @@
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]";
 import connectDB from "../../../lib/db";
 
 const sendError = (res, status, message) => {
@@ -10,7 +11,7 @@ export default async function handler(req, res) {
     return sendError(res, 405, `Method ${req.method} not allowed`);
   }
 
-  const session = await getSession({ req });
+  const session = await getServerSession(req, res, authOptions);
   if (!session) {
     return sendError(res, 401, "Unauthorized");
   }

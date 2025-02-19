@@ -135,7 +135,14 @@ function DataForm() {
 
   // Render form
   return (
-    <div>
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+        await updateUser();
+      }}
+      id="data-form"
+      className="form-container"
+    >
       {/* Add GitHub username header if logged in via GitHub */}
       {session?.user?.provider === "github" && (
         <div className="github-header">
@@ -145,127 +152,118 @@ function DataForm() {
         </div>
       )}
 
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          await updateUser();
-        }}
-        id="data-form"
-        className="form-container"
+      <label htmlFor="fullName" className="form-label">
+        Full Name:
+      </label>
+      <input
+        type="text"
+        id="fullName"
+        name="fullName"
+        autoComplete="name"
+        className="form-input"
+        value={formData.fullName}
+        onChange={(e) =>
+          setFormData({ ...formData, fullName: e.target.value })
+        }
+      />
+
+      {isLocal && (
+        <>
+          <label htmlFor="username" className="form-label">
+            Username:
+          </label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            autoComplete="username"
+            required
+            className="form-input"
+            value={formData.username}
+            onChange={(e) =>
+              setFormData({ ...formData, username: e.target.value })
+            }
+          />
+
+          <label htmlFor="password" className="form-label">
+            Password:
+          </label>
+          <input
+            type="text"
+            id="password"
+            name="password"
+            autoComplete="new-password"
+            required
+            className="form-input"
+            value={formData.password}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
+          />
+        </>
+      )}
+
+      <label htmlFor="email" className="form-label">
+        Email:
+      </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        autoComplete="email"
+        className="form-input"
+        value={formData.email}
+        onChange={(e) =>
+          setFormData({ ...formData, email: e.target.value })
+        }
+      />
+
+      <label htmlFor="dob" className="form-label">
+        DOB:
+      </label>
+      <input
+        type="date"
+        id="dob"
+        name="dob"
+        autoComplete="bday"
+        className="form-input"
+        value={formData.dob}
+        onChange={(e) =>
+          setFormData({ ...formData, dob: e.target.value })
+        }
+      />
+
+      <button type="submit" className="button primary-button">
+        Update
+      </button>
+      <button
+        id="logout-btn"
+        type="button"
+        className="button secondary-button"
+        onClick={() => signOut({ callbackUrl: '/' })}
       >
-        <label htmlFor="fullName" className="form-label">
-          Full Name:
-        </label>
-        <input
-          type="text"
-          id="fullName"
-          name="fullName"
-          autoComplete="name"
-          className="form-input"
-          value={formData.fullName}
-          onChange={(e) =>
-            setFormData({ ...formData, fullName: e.target.value })
-          }
-        />
+        Sign Out
+      </button>
+      
+      <button
+        id="delete-btn"
+        type="button"
+        className="button danger-button"
+        onClick={deleteUser}
+      >
+        Delete Account
+      </button>
 
-        {isLocal && (
-          <>
-            <label htmlFor="username" className="form-label">
-              Username:
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              autoComplete="username"
-              required
-              className="form-input"
-              value={formData.username}
-              onChange={(e) =>
-                setFormData({ ...formData, username: e.target.value })
-              }
-            />
-
-            <label htmlFor="password" className="form-label">
-              Password:
-            </label>
-            <input
-              type="text"
-              id="password"
-              name="password"
-              autoComplete="new-password"
-              required
-              className="form-input"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-            />
-          </>
-        )}
-
-        <label htmlFor="email" className="form-label">
-          Email:
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          autoComplete="email"
-          className="form-input"
-          value={formData.email}
-          onChange={(e) =>
-            setFormData({ ...formData, email: e.target.value })
-          }
-        />
-
-        <label htmlFor="dob" className="form-label">
-          DOB:
-        </label>
-        <input
-          type="date"
-          id="dob"
-          name="dob"
-          autoComplete="bday"
-          className="form-input"
-          value={formData.dob}
-          onChange={(e) =>
-            setFormData({ ...formData, dob: e.target.value })
-          }
-        />
-
-        <button type="submit" className="button primary-button">
-          Update
-        </button>
-        <button
-          id="logout-btn"
-          type="button"
-          className="button secondary-button"
-          onClick={() => signOut({ callbackUrl: '/' })}
-        >
-          Sign Out
-        </button>
-        
-        <button
-          id="delete-btn"
-          type="button"
-          className="button danger-button"
-          onClick={deleteUser}
-        >
-          Delete Account
-        </button>
-
-        {notification.message && (
-          <div className={`mt-4 p-2 rounded ${
-            notification.type === 'success' 
-              ? 'bg-green-200 text-green-800' 
-              : 'bg-red-200 text-red-800'
-          }`}>
-            {notification.message}
-          </div>
-        )}
-      </form>
-    </div>
+      {notification.message && (
+        <div className={`mt-4 p-2 rounded ${
+          notification.type === 'success' 
+            ? 'bg-green-200 text-green-800' 
+            : 'bg-red-200 text-red-800'
+        }`}>
+          {notification.message}
+        </div>
+      )}
+    </form>
   );
 }
 
