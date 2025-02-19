@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
+@layer components {
+  .form-container {
+    @apply m-4 p-8 bg-secondary/40 rounded-xl w-1/2;
+  }
+  
+  .form-input {
+    @apply w-full p-2 mb-2 bg-background text-text rounded border-2 border-accent focus:outline-none focus:ring-2 focus:ring-accent;
+  }
+  
+  .form-label {
+    @apply block text-lg font-semibold pb-2;
+  }
+  
+  .button {
+    @apply  text-text text-xl font-bold w-full p-2 mt-2 rounded transition-colors;
+  }
+
+  .primary-button {
+    @apply bg-accent/70 hover:bg-accent active:bg-accent/40;
+  }
+
+  .secondary-button {
+    @apply bg-secondary/70 hover:bg-secondary active:bg-secondary/40;
+  }
+
+  .danger-button {
+    @apply bg-red-500/70 hover:bg-red-500 active:bg-red-500/40;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --text: 0 0 0;
+    --background: 238 231 238;
+    --primary: 92 46 49;
+    --secondary: 184 148 150;
+    --accent: 148 117 97;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: 255 255 255;
+    --background: 24 17 24;
+    --primary: 209 163 166;
+    --secondary: 107 71 73;
+    --accent: 158 127 107;
+  }
+}
+
